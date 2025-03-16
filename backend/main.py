@@ -20,7 +20,7 @@ app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ✅ Enable CORS to allow requests from the frontend
+#Enable CORS to allow requests from the frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Adjusted for Next.js frontend
@@ -29,13 +29,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Secure password hashing
+#Secure password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
 
-# ✅ Create database tables if they don't exist
+# Create database tables if they don't exist
 models.Base.metadata.create_all(bind=engine)
 
-# ✅ Pydantic models for validation
+# Pydantic models for validation
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
@@ -49,7 +49,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
 
-# ✅ Dependency for database session
+# Dependency for database session
 def get_db():
     db = SessionLocal()
     try:
@@ -57,7 +57,7 @@ def get_db():
     finally:
         db.close()
 
-# ✅ Register user API
+# Register user API
 @app.post("/register", response_model=UserResponse)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
@@ -80,7 +80,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         logger.error("Error in register_user: %s", str(e))  # Log the error for debugging
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-# ✅ Login user API with logging and performance measurements
+#  Login user API with logging and performance measurements
 @app.post("/login")
 def login_user(request: LoginRequest, db: Session = Depends(get_db)):
     start_time = time.time()  # Start the timer for login process
@@ -106,7 +106,7 @@ def login_user(request: LoginRequest, db: Session = Depends(get_db)):
     
     return {"message": "Login successful!", "username": user.username}
 
-# ✅ Notes API - Create a new note
+# Notes API - Create a new note
 @app.post("/notes/")
 def create_note(note: crud.NoteCreate, db: Session = Depends(get_db)):
     try:
