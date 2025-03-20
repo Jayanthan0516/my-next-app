@@ -12,7 +12,7 @@ This project uses the following libraries:
 - axios: ^1.3.1
 - react-query: ^3.34.16
 - zustand: ^3.7.6
-
+- check
 ## Frontend Dev Dependencies
 - @eslint/eslintrc: ^3
 - @tailwindcss/postcss: ^4
