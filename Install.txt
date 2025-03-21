@@ -1,0 +1,172 @@
+Basic Installation Guide
+
+ Prerequisites
+Ensure that **Node.js** is installed on your PC. If not, download and install it from:
+[Node.js Download](https://nodejs.org/en)
+
+During installation, make sure to select **"Add to PATH"**.
+
+Also, install **Python 3.10**, ensuring that **"Add to PATH"** is selected.
+
+------------------------------------------------------------------------------------------------------
+
+ Step-by-Step Installation
+
+ Step 1: Configure PowerShell
+1. Open **PowerShell** as an Administrator.
+2. Run the following command:
+   ```powershell
+   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+   ```
+3. Press **Y** when prompted.
+4. Restart **VS Code**.
+
+------------------------------------------------------------------------------------------------------
+
+ Step 2: Navigate to Project Folder
+1. Open **Command Prompt (CMD)**.
+2. Use `cd` to navigate to your project folder.
+
+------------------------------------------------------------------------------------------------------
+
+ Step 3: Clear NPM Cache
+Run the following command:
+```cmd
+npm cache clean --force
+```
+
+------------------------------------------------------------------------------------------------------
+
+ Step 4: Install NPM Packages
+Run:
+```cmd
+npm install
+```
+
+------------------------------------------------------------------------------------------------------
+
+ Step 5: Install Tailwind CSS & Dependencies
+Run:
+```cmd
+npm install @shadcn/ui axios framer-motion next react react-dom react-icons zustand
+npm install tailwindcss postcss @tailwindcss/postcss autoprefixer --save-dev
+```
+
+------------------------------------------------------------------------------------------------------
+
+ Step 6: Install Additional Libraries
+Run:
+```cmd
+npm install axios framer-motion zustand @shadcn/ui
+```
+
+------------------------------------------------------------------------------------------------------
+
+ Step 7: Open VS Code & Start Development Server
+1. Open VS Code and navigate to **File > Open Folder**.
+2. Open the terminal (`CTRL + ~`) and run:
+   ```cmd
+   npm run dev
+   ```
+
+------------------------------------------------------------------------------------------------------
+
+ SQL Database Setup
+
+ Step 1: Install MySQL
+Download MySQL from: [MySQL Download](https://downloads.mysql.com/archives/installer/)
+
+During installation, set the **root password to "root"**.
+
+------------------------------------------------------------------------------------------------------
+
+ Step 2: Configure MySQL
+1. Open **PowerShell as Administrator**.
+2. Navigate to the MySQL bin folder:
+   ```powershell
+   cd C:\Progra~1\MySQL\MySQL*8.0\bin
+   ```
+3. Run MySQL:
+   ```powershell
+   .\mysql -u root -p
+   ```
+4. Enter the password (**root**).
+5. Create the database:
+   ```sql
+   CREATE DATABASE auth_db;
+   USE auth_db;
+   ```
+6. Create the required tables:
+   ```sql
+   CREATE TABLE users (
+       user_id     CHAR(36) PRIMARY KEY,
+       user_name   VARCHAR(255) NOT NULL,
+       user_email  VARCHAR(255) UNIQUE NOT NULL,
+       password    VARCHAR(255) NOT NULL,
+       last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+       create_on   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+
+   CREATE TABLE notes (
+       note_id      CHAR(36) PRIMARY KEY,
+       note_title   VARCHAR(255) NOT NULL,
+       note_content TEXT NOT NULL,
+       user_id      CHAR(36) NOT NULL,
+       last_update  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+       created_on   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+       FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+   );
+   ```
+
+------------------------------------------------------------------------------------------------------
+ API & Python Library Installation
+
+ Step 1: Install Required Libraries
+Navigate to your project folder:
+```cmd
+cd D:\my-next-app-main
+```
+Run the following commands:
+```cmd
+pip install fastapi sqlalchemy pydantic uvicorn passlib bcrypt python-multipart
+pip install sqlalchemy pymysql
+pip install fastapi sqlalchemy pydantic uvicorn
+pip install pydantic[email]
+pip install email-validator
+pip install alembic
+```
+
+------------------------------------------------------------------------------------------------------
+
+ Step 2: Activate Virtual Environment
+Run:
+```cmd
+venv\Scripts\Activate
+```
+
+------------------------------------------------------------------------------------------------------
+
+ Troubleshooting Errors
+If you encounter errors:
+1. Open **PowerShell** and run:
+   ```powershell
+   Set-ExecutionPolicy Unrestricted -Scope Process
+   ```
+2. Press **Y** to confirm.
+3. Return to **CMD** and activate the virtual environment again:
+   ```cmd
+   venv\Scripts\Activate
+   ```
+4. Reinstall libraries if necessary.
+
+------------------------------------------------------------------------------------------------------
+
+ Running the API
+1. Ensure you are inside the virtual environment.
+2. Run the API using:
+   ```cmd
+   uvicorn main:app --reload
+   ```
+3. To stop the API, press **CTRL + C**.
+
+------------------------------------------------------------------------------------------------------
