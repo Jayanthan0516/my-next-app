@@ -19,16 +19,19 @@ def get_db():
 
 # Dependency to get the user_id from the session
 def get_user_id_from_session(request: Request):
-    user_id = request.cookies.get("user_id")  # Or use session storage or JWT, etc.
+    user_id = request.cookies.get("user_id")
+    print("User ID from cookie:", user_id)  # Debugging
     if not user_id:
         raise HTTPException(status_code=401, detail="User is not authenticated")
-    return user_id
+    return int(user_id)  # Ensure it's returned as an integer
+
 
 # Pydantic models for input validation
 class NoteCreate(BaseModel):
     note_title: str
     note_content: str
     user_id: int
+    username: str
 
 class NoteResponse(BaseModel):
     note_id: str
@@ -43,7 +46,7 @@ class NoteResponse(BaseModel):
 # Create a note
 @router.post("/notes/", response_model=NoteResponse)
 def create_new_note(note: NoteCreate, db: Session = Depends(get_db), user_id: int = Depends(get_user_id_from_session)):
-    new_note = create_note(db, note.note_title, note.note_content, user_id)
+    new_note = create_note(db, note)
     return new_note
 
 # Get all notes for a user

@@ -134,6 +134,11 @@ pip install fastapi sqlalchemy pydantic uvicorn
 pip install pydantic[email]
 pip install email-validator
 pip install alembic
+pip install django-cors-headers
+pip install passlib[bcrypt]
+pip install pymysql
+pip install mysqlclient
+pip install cryptography
 ```
 
 ------------------------------------------------------------------------------------------------------
@@ -141,6 +146,7 @@ pip install alembic
  Step 2: Activate Virtual Environment
 Run:
 ```cmd
+D:my-next-app\backend\
 venv\Scripts\Activate
 ```
 
@@ -165,7 +171,7 @@ If you encounter errors:
 1. Ensure you are inside the virtual environment.
 2. Run the API using:
    ```cmd
-   uvicorn main:app --reload
+uvicorn main:app --reload --host 127.0.0.1 --port 8001 --log-level info
    ```
 3. To stop the API, press **CTRL + C**.
 

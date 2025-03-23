@@ -20,22 +20,26 @@ app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-#Enable CORS to allow requests from the frontend
+# Enable CORS to allow requests from the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adjusted for Next.js frontend
+    allow_origins=["*"],  # Adjusted for Next.js frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-#Secure password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
+# Secure password hashing (Fixed bcrypt_rounds issue)
+pwd_context = CryptContext(
+    schemes=["bcrypt"], 
+    deprecated="auto"
+)
+
 
 # Create database tables if they don't exist
 models.Base.metadata.create_all(bind=engine)
 
-# Pydantic models for validation
+# Pydantic models for validation (Fixed 'orm_mode' warning)
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
@@ -48,6 +52,9 @@ class LoginRequest(BaseModel):
 class UserResponse(BaseModel):
     username: str
     email: EmailStr
+
+    class Config:
+        from_attributes = True  # Fixed Pydantic v2 warning
 
 # Dependency for database session
 def get_db():
@@ -80,7 +87,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         logger.error("Error in register_user: %s", str(e))  # Log the error for debugging
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-#  Login user API with logging and performance measurements
+# Login user API with logging and performance measurements
 @app.post("/login")
 def login_user(request: LoginRequest, db: Session = Depends(get_db)):
     start_time = time.time()  # Start the timer for login process
@@ -120,4 +127,4 @@ def create_note(note: crud.NoteCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Error saving note")
 
 # Include the notes router for the /notes endpoint
-app.include_router(notes_router)
+app.include_router(notes_router, prefix="/notes")

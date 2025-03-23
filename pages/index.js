@@ -27,7 +27,7 @@ export default function IndexPage() {
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl font-bold mb-4"  // Reduced the bottom margin
+            className="text-3xl font-bold mb-6 text-black"  // Reduced the bottom margin
           >
             Welcome to Notes
           </motion.h2>

@@ -9,6 +9,7 @@ class NoteCreate(BaseModel):
     note_title: str
     note_content: str
     user_id: int
+    #username: str
 
 # Create a new note
 def create_note(db: Session, note: NoteCreate):
@@ -19,7 +20,8 @@ def create_note(db: Session, note: NoteCreate):
             note_content=note.note_content,
             created_on=datetime.utcnow(),
             last_update=datetime.utcnow(),
-            user_id=note.user_id
+            user_id=note.user_id,
+            #username=note.username 
         )
         db.add(new_note)
         db.commit()

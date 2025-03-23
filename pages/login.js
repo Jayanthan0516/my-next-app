@@ -21,7 +21,7 @@ export default function LoginPage() {
       return;
     }
 
-    const res = await fetch("http://127.0.0.1:8000/login", {
+    const res = await fetch("http://127.0.0.1:8001/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -62,33 +62,33 @@ export default function LoginPage() {
           transition={{ duration: 0.3 }}
           className="bg-white p-6 rounded-lg shadow-lg w-96 text-center border"
         >
-          <h2 className="text-2xl font-bold mb-4">Login</h2>
+          <h2 className="text-2xl font-bold mb-6 text-black">Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4 text-left">
-              <label className="block text-sm font-semibold">Email</label>
+              <label className="block text-sm font-semibold text-black">Email</label>
               <input
                 type="email"
                 name="email"
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded text-black"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
               />
             </div>
             <div className="mb-4 text-left">
-              <label className="block text-sm font-semibold">Password</label>
+              <label className="block text-sm font-semibold text-black">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black"
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <HiEyeOff /> : <HiEye />}
@@ -103,7 +103,7 @@ export default function LoginPage() {
             </button>
           </form>
           {message && <p className="mt-4 text-sm text-red-500">{message}</p>}
-          <p className="mt-4 text-sm">
+          <p className="mt-4 text-sm text-black">
             Don't have an account? 
             <button onClick={() => router.push("/register")} className="text-blue-500 hover:underline"> Register</button>
           </p>

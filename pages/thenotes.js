@@ -15,6 +15,9 @@ export default function TheNotes() {
     const storedUsername = sessionStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);
+    } else {
+      alert("Username missing. Please log in again.");
+      router.push("/login");
     }
 
     const hour = new Date().getHours();
@@ -27,36 +30,49 @@ export default function TheNotes() {
     }
   }, []);
 
-  // Step 2: Create a function to save the note
-  // This function must be declared as 'async'
+  // Save Note Function (Now using username)
   const [savedNote, setSavedNote] = useState(null);
 
   const saveNote = async () => {
     try {
-      const response = await fetch("http://localhost:8000/notes/", {
+      const userId = parseInt(sessionStorage.getItem("userId"), 10) || 0; // Ensure it's a number
+      if (!username) {
+        alert("Username missing. Please log in again.");
+        return;
+      }
+
+      const requestBody = {
+        note_title: noteTitle,
+        note_content: noteContent,
+        user_id: userId,
+        //username: username, // Using username instead of userId
+      };
+
+      console.log("Sending request with data:", requestBody);
+
+      const response = await fetch("http://localhost:8001/notes/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          note_title: noteTitle,
-          note_content: noteContent,
-          user_id: sessionStorage.getItem("userId"),
-        }),
+        body: JSON.stringify(requestBody),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setSavedNote(data);  // Save the newly created note into state
-        alert("Note Saved!");
-        setNoteTitle("");
-        setNoteContent("");  // Reset the form
-      } else {
-        alert("Failed to save note");
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server Error: ${errorText}`);
       }
+
+      const data = await response.json();
+      console.log("Response received:", data);
+
+      setSavedNote(data);
+      alert("Note Saved!");
+      setNoteTitle("");
+      setNoteContent("");
     } catch (error) {
       console.error("Error saving note:", error);
-      alert("An error occurred while saving the note");
+      alert(`Failed to save note: ${error.message}`);
     }
   };
 
@@ -106,12 +122,12 @@ export default function TheNotes() {
               <FiX size={24} />
             </button>
 
-            <h2 className="text-xl font-bold mb-4 text-center">Add a Note</h2>
+            <h2 className="text-xl font-bold mb-4 text-center text-black">Add a Note</h2>
 
             {/* Heading Input Box */}
             <input
               type="text"
-              className="w-full p-2 border rounded bg-white bg-opacity-40 backdrop-blur-md"
+              className="w-full p-2 border rounded bg-white bg-opacity-40 backdrop-blur-md text-black"
               placeholder="Enter note title..."
               value={noteTitle}
               onChange={(e) => setNoteTitle(e.target.value)}
@@ -119,7 +135,7 @@ export default function TheNotes() {
 
             {/* Textarea for Notes */}
             <textarea
-              className="w-full p-3 border rounded h-40 bg-white bg-opacity-40 backdrop-blur-md mt-3"
+              className="w-full p-3 border rounded h-40 bg-white bg-opacity-40 backdrop-blur-md mt-3 text-black"
               placeholder="Write your note here..."
               value={noteContent}
               onChange={(e) => setNoteContent(e.target.value)}
@@ -133,7 +149,6 @@ export default function TheNotes() {
                 className="bg-[#22c55e] text-white px-4 py-2 rounded hover:bg-green-700"
                 onClick={saveNote} 
               >
-                {/* Call the saveNote function */}
                 Save
               </motion.button>
 

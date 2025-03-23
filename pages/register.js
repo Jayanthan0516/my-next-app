@@ -40,7 +40,7 @@ export default function RegisterPage() {
       return;
     }
 
-    const res = await fetch("http://127.0.0.1:8000/register", {
+    const res = await fetch("http://127.0.0.1:8001/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -80,44 +80,44 @@ export default function RegisterPage() {
           transition={{ duration: 0.3 }}
           className="bg-white p-6 rounded-lg shadow-lg w-96 text-center border"
         >
-          <h2 className="text-2xl font-bold mb-4">Register</h2>
+          <h2 className="text-2xl font-bold mb-6 text-black">Register</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4 text-left">
-              <label className="block text-sm font-semibold">Username</label>
+              <label className="block text-sm font-semibold text-black">Username</label>
               <input
                 type="text"
                 name="username"
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded text-black"
                 placeholder="Enter your username"
                 value={formData.username}
                 onChange={handleChange}
               />
             </div>
             <div className="mb-4 text-left">
-              <label className="block text-sm font-semibold">Email</label>
+              <label className="block text-sm font-semibold text-black">Email</label>
               <input
                 type="email"
                 name="email"
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded text-black"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
               />
             </div>
             <div className="mb-4 text-left">
-              <label className="block text-sm font-semibold">Password</label>
+              <label className="block text-sm font-semibold text-black">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black"
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <HiEyeOff /> : <HiEye />}
@@ -125,19 +125,19 @@ export default function RegisterPage() {
               </div>
             </div>
             <div className="mb-4 text-left">
-              <label className="block text-sm font-semibold">Confirm Password</label>
+              <label className="block text-sm font-semibold text-black">Confirm Password</label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black"
                   placeholder="Re-enter your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? <HiEyeOff /> : <HiEye />}
@@ -152,7 +152,7 @@ export default function RegisterPage() {
             </button>
           </form>
           {message && <p className="mt-4 text-sm text-red-500">{message}</p>}
-          <p className="mt-4 text-sm">
+          <p className="mt-4 text-sm text-black">
             Already have an account? 
             <button onClick={() => router.push("/login")} className="text-blue-500 hover:underline"> Login</button>
           </p>
