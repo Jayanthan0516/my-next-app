@@ -59,7 +59,7 @@ Start the Next.js development server with:
 
 npm run dev
 
-Now, open your browser and go to http://localhost:3000 to see the app running.
+Now, open your browser and go to http://localhost:3000 or http://localhost:8000 to see the app running.
 
 Backend Setup
 
