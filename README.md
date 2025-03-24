@@ -65,7 +65,7 @@ Backend Setup
 
 If you're setting up the backend, install the required dependencies first:
 
-pip install -r requirements.txt
+pip install -r requirements.txt if its not work check install.txt file which can we found in my repo you can get all the installation guide for library & modules.
 
 Then, start the backend server:
 
