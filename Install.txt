@@ -1,3 +1,5 @@
+IMPORTANT**Every time just check wheather all the modulus are already install in your (venv) on powershell**
+
 Basic Installation Guide
 
  Prerequisites
